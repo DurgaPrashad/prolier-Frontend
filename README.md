@@ -19,6 +19,7 @@ A sleek and modern chat application UI designed for seamless communication. The 
 - **Chat List Screen** – Displays recent conversations in an organized list.
 - **Chat Screen** – Clean and engaging chat layout for active conversations.
 - **Profile Screen** – User profile settings and information management.
+![image](https://github.com/user-attachments/assets/a723dfd7-215f-4444-9a2e-272b5c822578)
 
 ---
 
