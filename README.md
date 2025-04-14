@@ -11,6 +11,7 @@ A sleek and modern chat application UI designed for seamless communication. The 
 </div>
 
 ---
+![image](https://github.com/user-attachments/assets/8b44dae3-0e4d-4252-b86b-6c0397d4286e)
 
 ### 🖼️ Screens Description
 
