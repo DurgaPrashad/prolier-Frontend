@@ -14,7 +14,7 @@ const AiAssistant = ({ onSingleClick, onDoubleClick }: AiAssistantProps) => {
   };
 
   return (
-    <div className="absolute -top-12 right-4">
+    <div className="absolute -top-12 right-4 z-20">
       <Popover>
         <PopoverTrigger asChild>
           <button

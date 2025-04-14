@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from "react";
 import Avatar from "./Avatar";
 import ChatCard from "./ChatCard";
@@ -5,7 +6,7 @@ import MessageBubble from "./MessageBubble";
 import TypingIndicator from "./TypingIndicator";
 import ChatInput from "./ChatInput";
 import AiSuggestion from "./AiSuggestion";
-import { Phone, Video, Menu, Plus, X, Brain } from "lucide-react";
+import { Phone, Video, Menu, Plus, X, Brain, MessageCircle, Bell, Users, Settings } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import BottomNavbar from "./BottomNavbar";
 import { ScrollArea } from "./ui/scroll-area";
@@ -291,8 +292,57 @@ const ChatLayout = () => {
     }
   };
 
+  // Desktop sidebar navigation
+  const DesktopSidebarNav = () => (
+    <div className="hidden md:flex flex-col items-center px-2 pt-6 pb-4 border-r border-white/10 dark:border-white/5 bg-white/5 dark:bg-black/5 backdrop-blur-lg space-y-8">
+      <div className="flex flex-col items-center">
+        <h1 className="text-xl font-bold bg-gradient-to-r from-lumina-indigo to-lumina-blue bg-clip-text text-transparent">
+          Prolier
+        </h1>
+      </div>
+      <div className="flex flex-col items-center space-y-6">
+        <NavIconButton 
+          icon={<Bell size={22} />} 
+          label="Updates" 
+          isActive={activeTab === "updates"}
+          onClick={() => handleTabChange("updates")}
+        />
+        <NavIconButton 
+          icon={<Phone size={22} />} 
+          label="Calls" 
+          isActive={activeTab === "calls"}
+          onClick={() => handleTabChange("calls")}
+        />
+        <NavIconButton 
+          icon={<Users size={22} />} 
+          label="Communities" 
+          isActive={activeTab === "communities"}
+          onClick={() => handleTabChange("communities")}
+        />
+        <NavIconButton 
+          icon={<MessageCircle size={22} />} 
+          label="Chats" 
+          isActive={activeTab === "chats"}
+          onClick={() => handleTabChange("chats")}
+        />
+        <NavIconButton 
+          icon={<Settings size={22} />} 
+          label="Settings" 
+          isActive={activeTab === "settings"}
+          onClick={() => handleTabChange("settings")}
+        />
+      </div>
+      <div className="mt-auto">
+        <ThemeToggle />
+      </div>
+    </div>
+  );
+
   return (
     <div className="flex h-screen w-full overflow-hidden">
+      {/* Vertical desktop navigation sidebar */}
+      <DesktopSidebarNav />
+      
       {/* Sidebar - Chat list - Only visible on desktop or when toggled on mobile */}
       <div
         className={`md:w-1/3 lg:w-1/4 h-full bg-white/5 dark:bg-black/5 backdrop-blur-lg border-r border-white/10 dark:border-white/5 flex flex-col z-30 transition-transform duration-300 ${
@@ -301,8 +351,8 @@ const ChatLayout = () => {
             : "absolute inset-0 -translate-x-full md:static md:translate-x-0"
         }`}
       >
-        {/* Sidebar header with user profile */}
-        <div className="p-4 border-b border-white/10 dark:border-white/5">
+        {/* Sidebar header with user profile - only shown on mobile */}
+        <div className="p-4 border-b border-white/10 dark:border-white/5 md:hidden">
           <div className="flex justify-between items-center">
             <div className="flex items-center">
               <Avatar 
@@ -316,7 +366,6 @@ const ChatLayout = () => {
               </h1>
             </div>
             <div className="flex items-center space-x-2">
-              <ThemeToggle />
               <button className="btn-ghost p-2 h-10 w-10 flex items-center justify-center rounded-full md:hidden" onClick={toggleMobileSidebar}>
                 <X className="h-5 w-5" />
               </button>
@@ -428,7 +477,7 @@ const ChatLayout = () => {
 
         {/* Chat input area with AI assistant - only shown in chat view */}
         {!isHomeScreen && (
-          <div className="absolute bottom-0 left-0 right-0 px-2 py-2 bg-white/5 dark:bg-black/5 backdrop-blur-md border-t border-white/10 dark:border-white/5 z-20">
+          <div className="relative bottom-0 left-0 right-0 px-2 py-2 bg-white/5 dark:bg-black/5 backdrop-blur-md border-t border-white/10 dark:border-white/5 z-20">
             {/* AI Assistant button - mobile only */}
             {isMobile && (
               <AiAssistant
@@ -466,6 +515,33 @@ const ChatLayout = () => {
         />
       </div>
     </div>
+  );
+};
+
+// NavIconButton component for desktop sidebar
+interface NavIconButtonProps {
+  icon: React.ReactNode;
+  label: string;
+  isActive: boolean;
+  onClick: () => void;
+}
+
+const NavIconButton = ({ icon, label, isActive, onClick }: NavIconButtonProps) => {
+  return (
+    <button
+      onClick={onClick}
+      className={`flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-300 w-12 h-12 relative ${
+        isActive
+          ? "text-lumina-indigo bg-white/10 dark:bg-black/20"
+          : "text-foreground/70 hover:bg-white/5 dark:hover:bg-white/5"
+      }`}
+      title={label}
+    >
+      <div>{icon}</div>
+      {isActive && (
+        <div className="absolute -right-0.5 top-1/2 transform -translate-y-1/2 w-1 h-6 bg-gradient-to-b from-lumina-indigo to-lumina-blue rounded-l-full"></div>
+      )}
+    </button>
   );
 };
 
